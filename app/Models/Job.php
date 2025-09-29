@@ -2,26 +2,10 @@
 
 namespace App\Models;
 
-class Job
+use Illuminate\Database\Eloquent\Model;
+
+class Job extends Model
 {
-    protected static array $jobs = [
-        ['id' => 1, 'title' => 'Director', 'salary' => 50000],
-        ['id' => 2, 'title' => 'Programmer', 'salary' => 10000],
-        ['id' => 3, 'title' => 'Teacher', 'salary' => 40000],
-    ];
-
-    public static function all(): array
-    {
-        return self::$jobs;
-    }
-
-    public static function find(int $id): ?array
-    {
-        foreach (self::$jobs as $job) {
-            if ($job['id'] === $id) {
-                return $job;
-            }
-        }
-        return null;
-    }
+    protected $table = 'job_listings'; // verwijst naar de juiste tabel
+    protected $fillable = ['title', 'salary']; // vulbare velden
 }
