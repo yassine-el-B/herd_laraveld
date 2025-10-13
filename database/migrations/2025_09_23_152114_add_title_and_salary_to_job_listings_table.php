@@ -6,18 +6,31 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    public function up(): void
-    {
-        Schema::table('job_listings', function (Blueprint $table) {
+public function up(): void
+{
+    Schema::table('job_listings', function (Blueprint $table) {
+        if (!Schema::hasColumn('job_listings', 'title')) {
             $table->string('title')->after('id');
-            $table->integer('salary')->after('title');
-        });
-    }
+        }
 
+        if (!Schema::hasColumn('job_listings', 'salary')) {
+            $table->integer('salary')->after('title');
+        }
+    });
+}
+    /**
+     * Reverse the migrations.
+     */
     public function down(): void
     {
         Schema::table('job_listings', function (Blueprint $table) {
-            $table->dropColumn(['title', 'salary']);
+            if (Schema::hasColumn('job_listings', 'title')) {
+                $table->dropColumn('title');
+            }
+
+            if (Schema::hasColumn('job_listings', 'salary')) {
+                $table->dropColumn('salary');
+            }
         });
     }
 };
