@@ -1,34 +1,18 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
+namespace App\Models;
 
-return new class extends Migration
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Employer extends Model
 {
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
-    {
-        Schema::table('job_listings', function (Blueprint $table) {
-            $table->foreignId('employer_id')
-                  ->nullable()
-                  ->after('id')
-                  ->constrained('employers')
-                  ->cascadeOnUpdate()
-                  ->nullOnDelete();
-        });
-    }
+    use HasFactory;
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
+    protected $fillable = ['name', 'location'];
+
+    public function jobs()
     {
-        Schema::table('job_listings', function (Blueprint $table) {
-            $table->dropForeign(['employer_id']);
-            $table->dropColumn('employer_id');
-        });
+        return $this->hasMany(Job::class);
     }
-};
+}
